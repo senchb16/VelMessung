@@ -1,3 +1,7 @@
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,12 +13,16 @@
  * @author Christoph
  */
 public class VelocityGUI extends javax.swing.JFrame {
-
+    VelocityTableModel m = new VelocityTableModel();
     /**
      * Creates new form GUI
      */
     public VelocityGUI() {
         initComponents();
+        this.jtTable.setModel(m);
+        LocalDate date = LocalDate.now();
+        LocalTime time = LocalTime.now();
+        m.add(new Measurement(date,time,"4552",45,10));
     }
 
     /**
@@ -31,9 +39,14 @@ public class VelocityGUI extends javax.swing.JFrame {
         miDelete = new javax.swing.JMenuItem();
         miAverage = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtTable = new javax.swing.JTable();
 
         miAdd.setText("Hinzufügen");
+        miAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miAddActionPerformed(evt);
+            }
+        });
         jPopupMenu1.add(miAdd);
 
         miDelete.setText("Löschen");
@@ -44,7 +57,7 @@ public class VelocityGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -55,8 +68,8 @@ public class VelocityGUI extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTable1.setComponentPopupMenu(jPopupMenu1);
-        jScrollPane1.setViewportView(jTable1);
+        jtTable.setComponentPopupMenu(jPopupMenu1);
+        jScrollPane1.setViewportView(jtTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -77,6 +90,16 @@ public class VelocityGUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void miAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAddActionPerformed
+      VelocityDlg dlg = new VelocityDlg(this,true);
+     
+      dlg.setVisible(true);
+      if(dlg.isIsOK()){
+          Measurement me = dlg.getM();
+          m.add(me);
+      }
+    }//GEN-LAST:event_miAddActionPerformed
 
     /**
      * @param args the command line arguments
@@ -117,7 +140,7 @@ public class VelocityGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jtTable;
     private javax.swing.JMenuItem miAdd;
     private javax.swing.JMenuItem miAverage;
     private javax.swing.JMenuItem miDelete;
