@@ -50,6 +50,11 @@ public class VelocityGUI extends javax.swing.JFrame {
         jPopupMenu1.add(miAdd);
 
         miDelete.setText("Löschen");
+        miDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miDeleteActionPerformed(evt);
+            }
+        });
         jPopupMenu1.add(miDelete);
 
         miAverage.setText("Durchschnitt");
@@ -57,6 +62,7 @@ public class VelocityGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jtTable.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jtTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -100,6 +106,14 @@ public class VelocityGUI extends javax.swing.JFrame {
           m.add(me);
       }
     }//GEN-LAST:event_miAddActionPerformed
+
+    private void miDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miDeleteActionPerformed
+      int[] indices = this.jtTable.getSelectedRows();
+      
+      for(int i = indices.length-1;i>=0;i--){
+          m.delete(i);
+      }
+    }//GEN-LAST:event_miDeleteActionPerformed
 
     /**
      * @param args the command line arguments
