@@ -1,6 +1,7 @@
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -58,6 +59,11 @@ public class VelocityGUI extends javax.swing.JFrame {
         jPopupMenu1.add(miDelete);
 
         miAverage.setText("Durchschnitt");
+        miAverage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miAverageActionPerformed(evt);
+            }
+        });
         jPopupMenu1.add(miAverage);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -114,6 +120,11 @@ public class VelocityGUI extends javax.swing.JFrame {
           m.delete(i);
       }
     }//GEN-LAST:event_miDeleteActionPerformed
+
+    private void miAverageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAverageActionPerformed
+        double avg = m.getAvg();
+        JOptionPane.showMessageDialog(null,"Die durchschnittliche Übertretrung lautet: "+avg);
+    }//GEN-LAST:event_miAverageActionPerformed
 
     /**
      * @param args the command line arguments

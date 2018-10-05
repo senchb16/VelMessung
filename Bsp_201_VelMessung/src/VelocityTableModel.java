@@ -44,7 +44,7 @@ public class VelocityTableModel extends AbstractTableModel {
            case 2: return m.getKennzeichen();
            case 3: return m.getVgemessen();
            case 4: return m.getVerlaubt();
-           case 5: return m.getVgemessen()-m.getVerlaubt();
+           case 5: return m.getVgemessen()<m.getVerlaubt() ? "-" :m.getVgemessen()-m.getVerlaubt();
            default: return "???";
        }
     }
@@ -57,6 +57,19 @@ public class VelocityTableModel extends AbstractTableModel {
     public void delete(int i) {
        this.messungen.remove(messungen.get(i));
         fireTableRowsDeleted(messungen.size()-1, messungen.size()-1);
+    }
+
+    public double getAvg() {
+       int sum = 0;
+       int count=0;
+        for (Measurement m: messungen) {
+            sum += m.getVgemessen()<m.getVerlaubt()? 0:m.getVgemessen()-m.getVerlaubt();
+            count+=m.getVgemessen()<m.getVerlaubt()? 0:1;
+        }
+        
+     double avg = sum / count;
+     
+     return avg;
     }
     
 }
