@@ -1,4 +1,10 @@
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 
@@ -38,13 +44,14 @@ public class VelocityTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowindex, int columnindex) {
        Measurement m = messungen.get(rowindex);
+        
        switch(columnindex){
            case 0: return m.getDate().toString();
            case 1: return m.getTime().toString();
            case 2: return m.getKennzeichen();
            case 3: return m.getVgemessen();
            case 4: return m.getVerlaubt();
-           case 5: return m.getVgemessen()<m.getVerlaubt() ? "-" :m.getVgemessen()-m.getVerlaubt();
+           case 5: return m.getVgemessen()-m.getVerlaubt();
            default: return "???";
        }
     }
@@ -70,6 +77,27 @@ public class VelocityTableModel extends AbstractTableModel {
      double avg = sum / count;
      
      return avg;
+    }
+
+    public void save(File f) throws Exception {
+        
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(f));
+        
+        for (Measurement m : messungen) {
+            oos.writeObject(m);
+        }
+        oos.flush();
+    }
+
+    public void load(File f) throws Exception{
+          ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
+          messungen.clear();
+        Object m = null;
+        while((m = ois.readObject())!= null){
+                
+                add((Measurement) m); 
+        }
+       
     }
     
 }

@@ -1,6 +1,11 @@
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 /*
@@ -20,10 +25,9 @@ public class VelocityGUI extends javax.swing.JFrame {
      */
     public VelocityGUI() {
         initComponents();
+         this.jtTable.setDefaultRenderer(Object.class, new CellRenderer());
         this.jtTable.setModel(m);
-        LocalDate date = LocalDate.now();
-        LocalTime time = LocalTime.now();
-        m.add(new Measurement(date,time,"4552",45,10));
+       
     }
 
     /**
@@ -41,6 +45,10 @@ public class VelocityGUI extends javax.swing.JFrame {
         miAverage = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtTable = new javax.swing.JTable();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        SaveData = new javax.swing.JMenuItem();
+        LoadData = new javax.swing.JMenuItem();
 
         miAdd.setText("Hinzufügen");
         miAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -82,6 +90,28 @@ public class VelocityGUI extends javax.swing.JFrame {
         ));
         jtTable.setComponentPopupMenu(jPopupMenu1);
         jScrollPane1.setViewportView(jtTable);
+
+        jMenu1.setText("Datei");
+
+        SaveData.setText("speichern");
+        SaveData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SaveDataActionPerformed(evt);
+            }
+        });
+        jMenu1.add(SaveData);
+
+        LoadData.setText("laden");
+        LoadData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LoadDataActionPerformed(evt);
+            }
+        });
+        jMenu1.add(LoadData);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -126,6 +156,35 @@ public class VelocityGUI extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null,"Die durchschnittliche Übertretrung lautet: "+avg);
     }//GEN-LAST:event_miAverageActionPerformed
 
+    private void SaveDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveDataActionPerformed
+        JFileChooser chooser = new JFileChooser();
+        int res = chooser.showOpenDialog(null);
+         if(res == JFileChooser.APPROVE_OPTION){
+             File f = chooser.getSelectedFile();
+            try {
+                m.save(f);
+           
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+         }
+             
+    }//GEN-LAST:event_SaveDataActionPerformed
+
+    private void LoadDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadDataActionPerformed
+         JFileChooser chooser = new JFileChooser();
+        int res = chooser.showOpenDialog(null);
+         if(res == JFileChooser.APPROVE_OPTION){
+             File f = chooser.getSelectedFile();
+            try {
+                m.load(f);
+            
+            } catch (Exception ex) {
+                 
+             }
+         }
+    }//GEN-LAST:event_LoadDataActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -163,6 +222,10 @@ public class VelocityGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem LoadData;
+    private javax.swing.JMenuItem SaveData;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jtTable;
